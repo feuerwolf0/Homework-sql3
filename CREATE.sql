@@ -34,7 +34,7 @@ CONSTRAINT unique_album_id UNIQUE (album_id)
 CREATE TABLE IF NOT EXISTS tracks (
 track_id SERIAL PRIMARY KEY,
 title VARCHAR(255) NOT NULL,
-duration INTEGER NOT NULL,
+duration INTEGER NOT NULL CHECK(duration > 0),
 album_id INTEGER NOT NULL REFERENCES albums(album_id)
 );
 
@@ -50,5 +50,4 @@ CREATE TABLE IF NOT EXISTS collection_track (
 track_id INTEGER NOT NULL REFERENCES tracks(track_id),
 collection_id INTEGER NOT NULL REFERENCES collections(collection_id)
 );
-
 

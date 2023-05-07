@@ -26,8 +26,7 @@ year INTEGER NOT NULL CHECK(year >= 1500 AND year <= 2023) --год выпуск
 --промежуточная таблица альбом-артист
 CREATE TABLE IF NOT EXISTS album_artist (
 album_id INTEGER NOT NULL REFERENCES albums(album_id),
-artist_id INTEGER NOT NULL REFERENCES artists(artist_id),
-CONSTRAINT unique_album_id UNIQUE (album_id)
+artist_id INTEGER NOT NULL REFERENCES artists(artist_id)
 );
 
 --таблица всех треков

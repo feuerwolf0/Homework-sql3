@@ -36,11 +36,10 @@ JOIN artists a ON a.artist_id = ga.artist_id
 GROUP BY genre;
 
 -- 3.2 Количество треков, вошедших в альбомы 2019–2020 годов.
-SELECT tracks.title, COUNT(*)
+SELECT COUNT(track_id)
 FROM tracks 
 JOIN albums a ON a.album_id = tracks.album_id 
-WHERE a.year BETWEEN 2019 AND 2020
-GROUP BY tracks.title;
+WHERE a.year BETWEEN 2019 AND 2020;
 
 -- 3.3 Средняя продолжительность треков по каждому альбому.
 SELECT a.title , AVG(duration)
@@ -70,13 +69,13 @@ JOIN artists art ON art.artist_id = aa.artist_id
 WHERE art.name = 'Boys Noize';  
 
 -- 4.1 Названия альбомов, в которых присутствуют исполнители более чем одного жанра. (У No name 41 2 жанра.)
-SELECT a.title 
+SELECT DISTINCT a.title
 FROM albums a
 JOIN album_artist aa ON aa.album_id = a.album_id 
-JOIN artists art ON art.artist_id = aa.artist_id 
-JOIN genre_artist ga ON ga.artist_id = art.artist_id
-GROUP BY a.title
+JOIN genre_artist ga ON ga.artist_id = aa.artist_id
+GROUP BY a.album_id, ga.artist_id 
 HAVING COUNT(ga.genre_id) > 1;
+
 
 -- 4.2 Наименования треков, которые не входят в сборники.
 SELECT t.title
@@ -94,18 +93,13 @@ JOIN tracks t ON t.album_id = aa.album_id
 WHERE t.duration = (SELECT MIN(duration) FROM tracks);
 
 -- 4.4 Названия альбомов, содержащих наименьшее количество треков.
-SELECT a.title 
+SELECT a.title
 FROM albums a
 JOIN tracks t ON t.album_id = a.album_id
-WHERE t.album_id IN (
-	SELECT album_id 
-	FROM tracks t2
-	GROUP BY album_id 
-	HAVING COUNT(track_id) = (
-		SELECT COUNT(track_id)
-		FROM tracks t3
-		GROUP BY album_id 
-		ORDER BY count
-		LIMIT 1
-	)
-);
+GROUP BY a.album_id
+HAVING COUNT(t.track_id) = (
+	SELECT COUNT(t2.track_id)
+	FROM tracks t2 
+	GROUP BY t2.album_id
+	ORDER BY 1
+	LIMIT 1);

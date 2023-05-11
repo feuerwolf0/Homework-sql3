@@ -35,3 +35,7 @@ VALUES ('Relax', 2023), ('Энергичная', 2019), ('Избранное', 2
 INSERT INTO collection_track (track_id, collection_id)
 VALUES (10,1), (11,1), (9,1), (4,1), (14,2), (13,2), (12,2), (7,2), (6,2), (5,2), (3,2), (2,2), (1,2),
 (5,3), (7,3), (10,3), (3,3), (4,4), (10,4), (11,4);
+
+--Дополнительные треки для задания 2.5
+INSERT INTO tracks(title, duration, album_id)
+VALUES ('my own', 117, 1), ('own my', 127, 1), ('oh my god', 177, 2), ('my', 127, 2), ('mycase', 127, 2);

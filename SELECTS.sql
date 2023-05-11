@@ -23,10 +23,10 @@ SELECT name
 FROM artists a 
 WHERE name !~ ' ';
 
---2.5 Название треков, которые содержат слово «мой» или «my». (Изменил на "My" чтобы был трек)
+--2.5 Название треков, которые содержат слово «мой» или «my».
 SELECT title
 FROM tracks t 
-WHERE title LIKE '% My %' OR title LIKE '% мой %';
+WHERE string_to_array(lower(title),' ') && string_to_array('my мой', ' ');
 
 -- 3.1 Количество исполнителей в каждом жанре.
 SELECT genre, COUNT(*)
